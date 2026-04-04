@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import foodRoutes from "./routes/foodRoutes.js";
 import logRoutes from "./routes/logRoutes.js";
 import healthRoutes from "./routes/healthRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 
 
@@ -31,5 +32,8 @@ app.get("/test-db", async (req, res) => {
 app.use("/api/foods", foodRoutes);
 app.use("/api/logs", logRoutes);
 app.use("/api/health", healthRoutes);
+app.use("/api/users", userRoutes);
+
+console.log("Routes loaded")
 
 // console.log(process.env.USD_API_KEY);
