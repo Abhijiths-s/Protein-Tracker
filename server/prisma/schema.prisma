@@ -13,10 +13,13 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String
-  logs     Log[]
+  id          Int     @id @default(autoincrement())
+  firebaseUid String  @unique
+  email       String  @unique
+  weight      Float?
+  height      Float?
+  goal        String?   // "gain" | "maintain" | "loss"
+  logs        Log[]
 }
 
 model Food {

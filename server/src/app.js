@@ -5,6 +5,15 @@ import foodRoutes from "./routes/foodRoutes.js";
 import logRoutes from "./routes/logRoutes.js";
 import healthRoutes from "./routes/healthRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import cors from "cors";
+
+const app=express();
+
+
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true
+}));
 
 
 
@@ -12,7 +21,6 @@ import userRoutes from "./routes/userRoutes.js";
 dotenv.config();
 
 
-const app=express();
 
 app.use(express.json());
 

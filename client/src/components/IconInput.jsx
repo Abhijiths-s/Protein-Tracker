@@ -48,3 +48,30 @@ export function PasswordInput({ icon1, icon2, wrapperClass = "", onIcon2Click, .
     </div>
   );
 }
+
+export function LabelIconInput({ label, icon, wrapperClass = "", ...props }) {
+  return (
+    <div className="flex flex-col gap-2">
+    <div className={`flex items-center w-full px-3 py-2 bg-transparent transition-all duration-200${wrapperClass}`}>
+
+      {icon && (
+        <span className="flex items-center justify-center text-gray-500 mr-2">
+          {icon}
+        </span>
+      )}
+      <label>{label}</label>
+
+      </div>
+        <div className={`flex items-center w-full px-3 py-2 bg-secbg border shadow-md border-gray-300 rounded-xl transition-all duration-200 focus-within:border-primgreen focus-within:ring-2 focus-within:ring-primgreen/30 ${wrapperClass}`}>
+      
+      {/* The Icon */}
+      
+      {/* The Invisible Input - NOW COMPLETELY STRIPPED */}
+      <input 
+        className="w-full bg-transparent border-0 p-0 outline-none focus:outline-none focus:ring-0 focus:border-transparent shadow-none text-gray-900 placeholder-gray-400" 
+        {...props} 
+        />
+    </div>
+        </div>
+  );
+};

@@ -12,6 +12,7 @@ export default {
         primary:"#2C2F31",
         secondary:"#595C5E",
         primgreen:"#1E5D43",
+        secgreen:"#B9F9D6"
         
       },
       fontFamily:{

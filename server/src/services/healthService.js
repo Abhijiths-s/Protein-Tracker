@@ -14,20 +14,37 @@ export const calculateBMI = (weight, height) => {
     };
 };
 
-export const getNutritionGoal = (weight) => {
-    const proteinMin = weight *0.8;
-    const proteinMax = weight * 2.2;
+export const getNutritionGoal = (weight, goal) => {
+  let proteinPerKg;
+  let calorieMultiplier;
 
-    const calories = weight * 30;
+  switch (goal) {
+    case "gain":
+      proteinPerKg = 2.0;
+      calorieMultiplier = 35;
+      break;
 
-    return {
-        protein:{
-            min: proteinMin.toFixed(2),
-            max: proteinMax.toFixed(2)
-        },
-        calories
-        };
-    };
+    case "loss":
+      proteinPerKg = 1.5;
+      calorieMultiplier = 25;
+      break;
+    
+    case "maintain":
+      proteinPerKg = 1.2;
+      calorieMultiplier = 30;
+      break;
 
+    default:
+      proteinPerKg = 1.2;
+      calorieMultiplier = 30;
+  }
 
+  console.log("INSIDE FUNCTION:", goal, proteinPerKg);
+  console.log(typeof weight);
+
+  const protein = weight * proteinPerKg;
+  const calories = weight * calorieMultiplier;
+
+  return { protein, calories }; // ✅ VERY IMPORTANT
+};
 

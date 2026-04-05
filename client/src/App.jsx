@@ -3,6 +3,7 @@ import {BrowserRouter, Routes ,Route }from "react-router-dom";
 import './App.css'
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import UserSetup from './pages/UserSetup';
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login/>}/>
+        <Route path="/usersetup" element={<UserSetup/>}/>
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard/>

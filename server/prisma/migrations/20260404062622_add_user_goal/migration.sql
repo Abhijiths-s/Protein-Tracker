@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "goal" TEXT,
+ADD COLUMN     "height" DOUBLE PRECISION,
+ADD COLUMN     "weight" DOUBLE PRECISION;

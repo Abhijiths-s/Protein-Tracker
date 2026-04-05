@@ -12,6 +12,8 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     
     // Added states for the Create Account form
     const [createName, setCreateName] = useState("");
@@ -23,30 +25,70 @@ export default function Login() {
     const navigate = useNavigate();
 
     const handleGoogleLogin = async () => {
+
+        if(loading) return;
+
+        setLoading(true);
+
         try {
             const { user, token } = await loginWithGoogle();
             localStorage.setItem("token", token);
             console.log("User:", user);
-            navigate("/dashboard");
+
+            const res =await api.post("/api/users/create");
+            const userData =res.data;
+
+            if (!userData.weight||!userData.height){
+                navigate("/usersetup");
+            }
+            else{
+                navigate("/dashboard");
+            }
         } catch (err) {
             console.error("Google login failed", err.message);
+            alert(err.message);
+        }finally{
+            setLoading(false);
         }
     };
 
     const handleEmailLogin = async (e) => {
         e.preventDefault();
+
+        if(loading) return;
+
+        setLoading(true);
         try {
             const { token } = await loginWithEmail(email, password);
             localStorage.setItem("token", token);
-            await api.post("/api/users/create")
-            navigate("/dashboard");
+            const res=await api.post("/api/users/create")
+            const userData=res.data;
+
+            if(!userData.weight||!userData.height){
+                navigate("/usersetup");
+            }
+            else{
+                
+                navigate("/dashboard");
+            }
         } catch (err) {
             console.error("Email login failed", err.message);
+            if (err.code === "auth/email-already-in-use") {
+                alert("Email already in use!");
+            } else {
+                alert("Login failed!");
+            }
+        }finally{
+            setLoading(false);
         }
     };
 
 const handleCreateAccount = async (e) => {
     e.preventDefault();
+
+    if(loading) return;
+
+    setLoading(true);
 
     if (createPassword !== confirmPassword) {
         alert("Passwords do not match!");
@@ -64,10 +106,17 @@ const handleCreateAccount = async (e) => {
         await api.post("/api/users/create");
 
         // 4. Redirect
-        navigate("/dashboard");
+        // navigate("/usersetup");
+
+        setActiveTab("login");
+        alert("Account created successfully!");
 
     } catch (err) {
         console.error("Signup failed:", err.message);
+        alert(err.message);
+    }
+    finally{
+        setLoading(false);
     }
 };
     return (
@@ -125,7 +174,6 @@ const handleCreateAccount = async (e) => {
                                 <PasswordInput 
                                     icon1={<Lock className="w-5 h-5"/>} 
                                     type={showPassword ? "text" : "password"} 
-                                    placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     icon2={showPassword ? <EyeOff className="w-5 h-5"/> : <Eye className="w-5 h-5"/>}
@@ -133,7 +181,15 @@ const handleCreateAccount = async (e) => {
                                 />
 
                                 <button type="submit" className="w-full flex justify-center hover:scale-[1.02] transition-transform duration-200 items-center gap-2 bg-primgreen text-white font-semibold rounded-3xl py-3 mt-4">
-                                    Login
+                                    {loading ? (
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                            Loading...
+                                        </div>
+                                    )
+                                    :(
+                                        "Login"
+                                    )}
                                     <ArrowRight className="w-5 h-5 font-bold"/>
                                 </button>
                             </form>
@@ -144,7 +200,7 @@ const handleCreateAccount = async (e) => {
                                 <div className="w-full h-[1px] bg-secbg"></div>
                             </div>
 
-                            <button onClick={handleGoogleLogin} type="button" className="bg-white shadow-md hover:scale-[1.02] w-full rounded-3xl flex items-center justify-center py-3 hover:bg-primgreen hover:text-white transition-colors duration-200">
+                            <button onClick={handleGoogleLogin} disabled={loading} type="button" className="bg-white shadow-md hover:scale-[1.02] w-full rounded-3xl flex items-center justify-center py-3 hover:bg-primgreen hover:text-white transition-colors duration-200">
                                 <FcGoogle className="w-5 h-5 mr-2" />
                                 Log in with Google
                             </button>
@@ -156,7 +212,7 @@ const handleCreateAccount = async (e) => {
                                 <p className="text-sm text-secondary">Create your account to track, thrive and transform.</p>
                             </section>
 
-                            <button onClick={handleGoogleLogin} type="button" className="bg-white shadow-md font-semibold hover:scale-[1.02] w-full rounded-3xl flex items-center justify-center py-3 my-4 hover:bg-primgreen hover:text-white transition-all duration-200">
+                            <button onClick={handleGoogleLogin} disabled={loading} type="button" className="bg-white shadow-md font-semibold hover:scale-[1.02] w-full rounded-3xl flex items-center justify-center py-3 my-4 hover:bg-primgreen hover:text-white transition-all duration-200">
                                 <FcGoogle className="w-5 h-5 mr-2" />
                                 Sign in with Google
                             </button>
@@ -207,7 +263,15 @@ const handleCreateAccount = async (e) => {
                                 />
 
                                 <button type="submit" className="w-full flex items-center justify-center gap-2 bg-primgreen text-white font-semibold rounded-3xl py-3 mt-4 hover:scale-[1.02] transition-transform duration-200">
-                                    Create Account
+                                    {loading ? (
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                            Loading...
+                                        </div>
+                                    )
+                                    :(
+                                        " Create Account"
+                                    )}
                                     <ArrowRight className="w-5 h-5 font-bold"/>
                                 </button>
                             </form>
@@ -217,7 +281,7 @@ const handleCreateAccount = async (e) => {
             </div>
 
             {/* card section */}
-            <div className="lg:flex flex-col justify-around fixed hidden bottom-20 -rotate-12 rounded-2xl left-10 w-40 p-4 bg-white shadow-md">
+            <div className="lg:flex flex-col justify-around fixed hidden bottom-20 hover:scale-[1.02] -rotate-12 rounded-2xl left-10 w-40 p-4 bg-white shadow-md">
                     <div className="flex flex-row gap-20 justify-around">
                         <BarChart2 className="flex  w-4 h-4 text-primgreen font-semibold"/>
                         <span className="flex text-[12px] font-semibold text-primgreen">+12%</span>
