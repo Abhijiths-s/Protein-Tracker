@@ -20,6 +20,9 @@ model User {
   height      Float?
   goal        String?   // "gain" | "maintain" | "loss"
   logs        Log[]
+
+  targetProtein Int?
+  targetCalories Int?
 }
 
 model Food {

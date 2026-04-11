@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import UserSetup from './pages/UserSetup';
 import ProtectedRoute from "./components/ProtectedRoute";
+import Logs from './pages/Logs';
 
 function App() {
 
@@ -16,6 +17,10 @@ function App() {
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard/>
+        </ProtectedRoute>} />
+        <Route path="/logs" element={
+          <ProtectedRoute>
+            <Logs/>
         </ProtectedRoute>} />
       </Routes>
     </BrowserRouter>

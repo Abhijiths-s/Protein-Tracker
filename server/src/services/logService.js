@@ -24,7 +24,8 @@ export const addLog = async (userId , foodId , quantity)=> {
         data: {
             userId,
             foodId,
-            quantity
+            quantity,
+            date:new Date()
         }
      });
 

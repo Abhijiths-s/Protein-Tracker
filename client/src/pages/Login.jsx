@@ -160,7 +160,7 @@ const handleCreateAccount = async (e) => {
                                 <p className="text-sm text-secondary">Please enter your details to continue.</p>
                             </section>
 
-                            <form onSubmit={handleEmailLogin} className="flex flex-col justify-center gap-2 mt-6">
+                            <form onSubmit={handleEmailLogin} className="flex flex-col justify-center gap-3 ">
                                 <label className="flex items-start text-secondary text-sm font-semibold">EMAIL ADDRESS</label>
                                 <IconInput 
                                     icon={<Mail className="w-5 h-5"/>} 
@@ -170,7 +170,7 @@ const handleCreateAccount = async (e) => {
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
 
-                                <label className="text-left text-secondary text-sm font-semibold mt-2">PASSWORD</label>
+                                <label className="text-left text-secondary text-sm font-semibold ">PASSWORD</label>
                                 <PasswordInput 
                                     icon1={<Lock className="w-5 h-5"/>} 
                                     type={showPassword ? "text" : "password"} 
@@ -180,7 +180,7 @@ const handleCreateAccount = async (e) => {
                                     onIcon2Click={() => setShowPassword(!showPassword)}
                                 />
 
-                                <button type="submit" className="w-full flex justify-center hover:scale-[1.02] transition-transform duration-200 items-center gap-2 bg-primgreen text-white font-semibold rounded-3xl py-3 mt-4">
+                                <button type="submit" className="w-full flex justify-center hover:scale-[1.02] transition-transform duration-200 items-center gap-2 bg-primgreen text-white font-semibold rounded-3xl py-3 mt-2">
                                     {loading ? (
                                         <div className="flex items-center justify-center gap-2">
                                             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -190,7 +190,10 @@ const handleCreateAccount = async (e) => {
                                     :(
                                         "Login"
                                     )}
-                                    <ArrowRight className="w-5 h-5 font-bold"/>
+                                    
+                                        <ArrowRight className={`w-5 h-5 font-bold ${loading ? "hidden" : ""}`}/>
+
+                                 
                                 </button>
                             </form>
 
@@ -212,7 +215,7 @@ const handleCreateAccount = async (e) => {
                                 <p className="text-sm text-secondary">Create your account to track, thrive and transform.</p>
                             </section>
 
-                            <button onClick={handleGoogleLogin} disabled={loading} type="button" className="bg-white shadow-md font-semibold hover:scale-[1.02] w-full rounded-3xl flex items-center justify-center py-3 my-4 hover:bg-primgreen hover:text-white transition-all duration-200">
+                            <button onClick={handleGoogleLogin} disabled={loading} type="button" className="bg-white shadow-md font-semibold hover:scale-[1.02] w-full rounded-3xl flex items-center justify-center py-3  hover:bg-primgreen hover:text-white transition-all duration-200">
                                 <FcGoogle className="w-5 h-5 mr-2" />
                                 Sign in with Google
                             </button>
@@ -223,17 +226,9 @@ const handleCreateAccount = async (e) => {
                                 <div className="w-full h-[1px] bg-secbg"></div>
                             </div>
 
-                            <form onSubmit={handleCreateAccount} className="flex flex-col justify-center gap-2 mt-4">
-                                <label className="flex items-start text-secondary text-sm font-semibold">NAME</label>
-                                <IconInput 
-                                    icon={<User className="w-5 h-5"/>} 
-                                    type="text" 
-                                    placeholder="Foody"
-                                    value={createName}
-                                    onChange={(e) => setCreateName(e.target.value)}
-                                />
+                            <form onSubmit={handleCreateAccount} className="flex flex-col justify-center gap-3 ">
 
-                                <label className="flex items-start text-secondary text-sm font-semibold mt-2">EMAIL ADDRESS</label>
+                                <label className="flex items-start text-secondary text-sm font-semibold">EMAIL ADDRESS</label>
                                 <IconInput 
                                     icon={<Mail className="w-5 h-5"/>} 
                                     type="email" 
@@ -242,7 +237,7 @@ const handleCreateAccount = async (e) => {
                                     onChange={(e) => setCreateEmail(e.target.value)}
                                 />
 
-                                <label className="text-left text-secondary text-sm font-semibold mt-2">PASSWORD</label>
+                                <label className="text-left text-secondary text-sm font-semibold ">PASSWORD</label>
                                 <PasswordInput 
                                     icon1={<Lock className="w-5 h-5"/>} 
                                     type={showPassword ? "text" : "password"} 
@@ -253,11 +248,10 @@ const handleCreateAccount = async (e) => {
                                     onIcon2Click={() => setShowPassword(!showPassword)}
                                 />
 
-                                <label className="text-left text-secondary text-sm font-semibold mt-2">CONFIRM PASSWORD</label>
+                                <label className="text-left text-secondary text-sm font-semibold">CONFIRM PASSWORD</label>
                                 <PasswordInput 
                                     icon1={<Lock className="w-5 h-5"/>} 
                                     type={showPassword ? "text" : "password"} 
-                                    placeholder="••••••••"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
@@ -272,7 +266,7 @@ const handleCreateAccount = async (e) => {
                                     :(
                                         " Create Account"
                                     )}
-                                    <ArrowRight className="w-5 h-5 font-bold"/>
+                                    <ArrowRight className={`w-5 h-5 font-bold ${loading ? "hidden" : ""}`}/>
                                 </button>
                             </form>
                         </>

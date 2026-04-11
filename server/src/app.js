@@ -5,6 +5,7 @@ import foodRoutes from "./routes/foodRoutes.js";
 import logRoutes from "./routes/logRoutes.js";
 import healthRoutes from "./routes/healthRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 import cors from "cors";
 
 const app=express();
@@ -41,6 +42,9 @@ app.use("/api/foods", foodRoutes);
 app.use("/api/logs", logRoutes);
 app.use("/api/health", healthRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+
+
 
 console.log("Routes loaded")
 
