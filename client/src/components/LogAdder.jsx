@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { auth } from "../services/firebase";
-
+import { Search, Plus, Dumbbell, Flame, X } from "lucide-react";
 
 export default function LogAdder({ onLogAdded }) {
     const [query, setQuery] = useState("");
@@ -8,128 +8,95 @@ export default function LogAdder({ onLogAdded }) {
     const [selectedFood, setSelectedFood] = useState(null);
     const [quantity, setQuantity] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
-
     const dropdownRef = useRef();
 
-    //Close dropdown on outside click
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
                 setShowDropdown(false);
             }
         };
-
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    //Search handler
     const handleSearch = async (value) => {
         setQuery(value);
-
-        if (!value) {
-            setResults([]);
-            return;
-        }
+        if (!value) { setResults([]); return; }
 
         const user = auth.currentUser;
         const token = await user.getIdToken();
-
-        const res = await fetch(
-            `http://localhost:3000/api/foods/search?query=${value}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        );
-
+        const res = await fetch(`http://localhost:3000/api/foods/search?query=${value}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
         const data = await res.json();
         setResults(data);
         setShowDropdown(true);
     };
 
-    //Calculations
-    const protein =
-        selectedFood && quantity
-            ? ((selectedFood.proteinPer100g / 100) * quantity).toFixed(1)
-            : 0;
+    const protein = selectedFood && quantity
+        ? ((selectedFood.proteinPer100g / 100) * quantity).toFixed(1) : 0;
+    const calories = selectedFood && quantity
+        ? ((selectedFood.caloriesPer100g / 100) * quantity).toFixed(0) : 0;
 
-    const calories =
-        selectedFood && quantity
-            ? ((selectedFood.caloriesPer100g / 100) * quantity).toFixed(0)
-            : 0;
-
-    // 🔹 Add log
     const handleAdd = async () => {
-        if (!selectedFood) {
-        alert("Select a food first");
-        return;
-    }
-
-    if (!quantity || quantity <= 0) {
-        alert("Enter valid quantity");
-        return;
-    }
+        if (!selectedFood) { alert("Select a food first"); return; }
+        if (!quantity || quantity <= 0) { alert("Enter valid quantity"); return; }
 
         const user = auth.currentUser;
         const token = await user.getIdToken();
 
         const res = await fetch("http://localhost:3000/api/logs", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                foodId: selectedFood.id,
-                quantity: Number(quantity)
-            })
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ foodId: selectedFood.id, quantity: Number(quantity) }),
         });
 
-        if(!res.ok) {
-            const text=await res.text();
-            console.error("Backend error:", text);
-            return;
-        }
+        if (!res.ok) { const text = await res.text(); console.error("Backend error:", text); return; }
 
-        const data =await res.json();
-        console.log("Log added:", data);
-
-
-        // reset
-        setQuery("");
-        setQuantity("");
-        setSelectedFood(null);
-        setResults([]);
-
-        if (onLogAdded) onLogAdded(); // 🔥 for refresh later
+        setQuery(""); setQuantity(""); setSelectedFood(null); setResults([]);
+        if (onLogAdded) onLogAdded();
     };
 
     return (
-        <div className="bg-secbg rounded-2xl p-6 w-full">
-            <div className="flex flex-col gap-6 w-full">
+        <div className="glass-card shadow-glass rounded-2xl p-6 w-full animate-slide-up">
+            <div className="flex flex-col gap-5 w-full">
 
-                {/* HEADER */}
-               
+                {/* Header */}
+                <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-lg bg-primgreen/10 flex items-center justify-center">
+                        <Plus className="w-3.5 h-3.5 text-primgreen" />
+                    </div>
+                    <h3 className="font-jakarta font-bold text-primary text-sm">Add Food Entry</h3>
+                </div>
 
-                {/* INPUT ROW */}
-                <div className="flex flex-col md:flex-row gap-4 w-full">
+                {/* Input row */}
+                <div className="flex flex-col md:flex-row gap-3 w-full">
 
-                    {/* FOOD INPUT */}
-                    <div ref={dropdownRef} className="relative w-full">
-                        <label className="text-sm font-semibold text-secondary">Food</label>
+                    {/* Food search */}
+                    <div ref={dropdownRef} className="relative flex-1">
+                        <label className="text-[10px] font-bold tracking-widest text-secondary/60 uppercase mb-1.5 block">Food</label>
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary/40" />
+                            <input
+                                value={query}
+                                onChange={(e) => handleSearch(e.target.value)}
+                                placeholder="Search food..."
+                                className="w-full pl-9 pr-9 py-2.5 rounded-xl bg-white border border-secbg/80 outline-none text-sm text-primary placeholder-secondary/40 focus:border-primgreen focus:ring-2 focus:ring-primgreen/20 transition-all duration-200"
+                            />
+                            {selectedFood && (
+                                <button
+                                    onClick={() => { setSelectedFood(null); setQuery(""); }}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary/40 hover:text-secondary transition-colors"
+                                >
+                                    <X className="w-3.5 h-3.5" />
+                                </button>
+                            )}
+                        </div>
 
-                        <input
-                            value={query}
-                            onChange={(e) => handleSearch(e.target.value)}
-                            placeholder="Type food name..."
-                            className="w-full p-2 rounded-lg bg-white border outline-none"
-                        />
-
-                        {/* DROPDOWN */}
+                        {/* Dropdown */}
                         {showDropdown && results.length > 0 && (
-                            <div className="absolute z-10 w-full bg-white shadow-md rounded-lg mt-1 max-h-40 overflow-y-auto">
+                            <div className="absolute z-20 w-full bg-white shadow-card rounded-xl mt-1 max-h-44 overflow-y-auto border border-secbg/40 animate-fade-in">
                                 {results.map((food) => (
                                     <div
                                         key={food.id}
@@ -138,8 +105,9 @@ export default function LogAdder({ onLogAdded }) {
                                             setQuery(food.name);
                                             setShowDropdown(false);
                                         }}
-                                        className="p-2 hover:bg-gray-100 cursor-pointer"
+                                        className="flex items-center gap-2 px-3 py-2.5 hover:bg-secgreen/15 cursor-pointer transition-colors text-sm text-primary border-b border-secbg/30 last:border-0"
                                     >
+                                        <Dumbbell className="w-3.5 h-3.5 text-primgreen/50 flex-shrink-0" />
                                         {food.name}
                                     </div>
                                 ))}
@@ -147,40 +115,44 @@ export default function LogAdder({ onLogAdded }) {
                         )}
                     </div>
 
-                    {/* QUANTITY */}
-                    <div className="w-full md:w-32">
-                        <label className="text-sm font-semibold text-secondary">Quantity(g)</label>
+                    {/* Quantity */}
+                    <div className="w-full md:w-28">
+                        <label className="text-[10px] font-bold tracking-widest text-secondary/60 uppercase mb-1.5 block">Qty (g)</label>
                         <input
                             type="number"
                             min={0}
                             value={quantity}
                             onChange={(e) => setQuantity(e.target.value)}
-                            className="w-full p-2 rounded-lg bg-white border"
+                            className="w-full py-2.5 px-3 rounded-xl bg-white border border-secbg/80 outline-none text-sm text-primary focus:border-primgreen focus:ring-2 focus:ring-primgreen/20 transition-all duration-200"
+                            placeholder="100"
                         />
                     </div>
 
-                    {/* PROTEIN */}
-                    <div className="w-full md:w-32">
-                        <label className="text-sm font-semibold text-secondary">Protein</label>
-                        <div className="bg-white p-2 rounded-lg">
-                            {protein} g
+                    {/* Protein preview */}
+                    <div className="w-full md:w-28">
+                        <label className="text-[10px] font-bold tracking-widest text-secondary/60 uppercase mb-1.5 block">Protein</label>
+                        <div className="flex items-center gap-1.5 py-2.5 px-3 rounded-xl bg-secgreen/15 border border-secgreen/30">
+                            <Dumbbell className="w-3.5 h-3.5 text-primgreen flex-shrink-0" />
+                            <span className="text-sm font-bold text-primgreen">{protein}g</span>
                         </div>
                     </div>
 
-                    {/* CALORIES */}
-                    <div className="w-full md:w-32">
-                        <label className="text-sm font-semibold text-secondary">Calories</label>
-                        <div className="bg-white p-2 rounded-lg">
-                            {calories}
+                    {/* Calories preview */}
+                    <div className="w-full md:w-28">
+                        <label className="text-[10px] font-bold tracking-widest text-secondary/60 uppercase mb-1.5 block">Calories</label>
+                        <div className="flex items-center gap-1.5 py-2.5 px-3 rounded-xl bg-amber-50 border border-amber-100">
+                            <Flame className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                            <span className="text-sm font-bold text-amber-600">{calories}</span>
                         </div>
                     </div>
 
-                    {/* BUTTON */}
+                    {/* Add button */}
                     <div className="flex items-end">
                         <button
                             onClick={handleAdd}
-                            className="bg-primgreen text-white px-4 py-2 rounded-lg"
+                            className="flex items-center gap-2 bg-gradient-to-r from-primgreen to-primgreen/85 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:shadow-green-glow hover:scale-[1.03] transition-all duration-200 whitespace-nowrap"
                         >
+                            <Plus className="w-4 h-4" />
                             Add
                         </button>
                     </div>

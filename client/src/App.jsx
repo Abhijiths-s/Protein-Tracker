@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import UserSetup from './pages/UserSetup';
 import ProtectedRoute from "./components/ProtectedRoute";
 import Logs from './pages/Logs';
+import Analytics from './pages/Analytics';
 
 function App() {
 
@@ -21,6 +22,10 @@ function App() {
         <Route path="/logs" element={
           <ProtectedRoute>
             <Logs/>
+        </ProtectedRoute>} />
+        <Route path="/analytics" element={
+          <ProtectedRoute>
+            <Analytics/>
         </ProtectedRoute>} />
       </Routes>
     </BrowserRouter>

@@ -6,6 +6,7 @@ import logRoutes from "./routes/logRoutes.js";
 import healthRoutes from "./routes/healthRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
 import cors from "cors";
 
 const app=express();
@@ -43,6 +44,7 @@ app.use("/api/logs", logRoutes);
 app.use("/api/health", healthRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 
 
