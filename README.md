@@ -208,3 +208,34 @@ This project demonstrates:
 ## 📜 License
 
 MIT License
+
+
+
+
+## 📸 Screenshots
+
+### 📊 Dashboard
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7b558aba-50ba-488e-9b8b-84c2010d62b9" width="75%" />
+  <br/>
+  <em>Track daily protein intake, calorie goals, and progress visually</em>
+</p>
+
+---
+
+### 🍽️ Food Logging & Tracking
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/74bb2849-1dfe-48a7-8adb-2320ce39d769" width="75%" />
+  <br/>
+  <em>Log meals, calculate nutrition dynamically, and manage entries with swipe-to-delete</em>
+</p>
+
+---
+
+### 📈 Analytics
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7bbf6cf0-f7ee-431d-b853-799a257c6eee" width="75%" />
+  <br/>
+  <em>Analyze trends and monitor consistency over time</em>
+</p>
+
