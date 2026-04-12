@@ -69,7 +69,7 @@ export default function UserSetup() {
                         <img src={Icon} alt="logo" className="w-4 h-4" />
                     </div>
                     <h1 className="font-extrabold font-jakarta text-primgreen text-2xl tracking-tight">
-                        VitalityFlow
+                        Vita Flux
                     </h1>
                 </div>
 

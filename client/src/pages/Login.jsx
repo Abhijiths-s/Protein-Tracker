@@ -194,7 +194,7 @@ export default function Login() {
                     <div className="w-9 h-9 bg-gradient-to-br from-primgreen/70 to-secgreen/30 rounded-xl flex items-center justify-center shadow-green-glow-sm">
                         <img src={Icon} alt="logo" className="w-5 h-5" />
                     </div>
-                    <span className="font-extrabold text-primgreen text-xl tracking-tight">VitalityFlow</span>
+                    <span className="font-extrabold text-primgreen text-xl tracking-tight">Vita Flux</span>
                 </div>
 
                 <div className="flex flex-col gap-6 animate-slide-up">
@@ -240,7 +240,7 @@ export default function Login() {
                         <div className="w-12 h-12 bg-gradient-to-br from-primgreen to-primgreen/70 rounded-2xl flex items-center justify-center shadow-green-glow">
                             <img src={Icon} alt="logo" className="w-7 h-7" />
                         </div>
-                        <h1 className="font-extrabold text-primgreen text-2xl">VitalityFlow</h1>
+                        <h1 className="font-extrabold text-primgreen text-2xl">Vita Flux</h1>
                         <p className="text-sm text-secondary/70 text-center">Fuel your potential, track your progress.</p>
                     </div>
 

@@ -1,40 +1,75 @@
-# 🥗 Protein & Calorie Tracker
+# 🥗 VitaFlux
 
-A full-stack web application that helps users track their daily protein and calorie intake, analyze nutrition trends, and maintain a healthy lifestyle.
+A full-stack web application for tracking daily protein and calorie intake, designed to help users monitor nutrition, visualize progress, and maintain a healthier lifestyle.
 
 ---
 
 ## 🚀 Features
 
-### 🔍 Food Search
+### 🔐 Authentication
 
-* Search foods using real-time data from USDA API
-* Automatic caching for faster future queries
-
-### 🍽️ Meal Logging
-
-* Log food intake with quantity
-* Dynamic calculation of calories & protein
-
-### 📊 Daily Analytics
-
-* Track total daily intake
-* Graphical visualization (frontend)
-
-### ⚖️ Health Metrics
-
-* BMI calculation
-* Personalized protein & calorie goals
+* Secure login using **Firebase Authentication**
+* Supports email/password (Google optional)
+* Backend verification using Firebase JWT
 
 ---
 
-## 🧠 Key Concepts Implemented
+### 🔍 Smart Food Search
 
-* REST API design
-* Clean architecture (Controller → Service → DB)
-* External API integration
-* Caching strategy
-* Dynamic aggregation (no redundant storage)
+* Real-time food search using **USDA API**
+* Intelligent caching in database for faster repeated queries
+* Dynamic suggestions as user types
+
+---
+
+### 🍽️ Meal Logging
+
+* Log food intake with quantity (grams)
+* Automatic calculation of:
+
+  * Protein
+  * Calories
+* Swipe-to-delete (mobile) and delete button (desktop)
+
+---
+
+### 📊 Dashboard Analytics
+
+* Daily protein & calorie tracking
+* Percentage-based progress visualization
+* Circular and linear progress indicators
+
+---
+
+### 📅 Daily Log System
+
+* View all logs for the current day
+* Dynamic updates without page reload
+* Persistent storage for historical analysis
+
+---
+
+### ⚖️ Health Metrics
+
+* Personalized protein & calorie goals
+* Goal-based nutrition calculation:
+
+  * Gain / Maintain / Loss
+
+---
+
+## 🧠 Architecture & Concepts
+
+* Clean Architecture:
+
+  ```
+  Controller → Service → Database (Prisma)
+  ```
+* JWT-based authentication (Firebase Admin SDK)
+* External API integration (USDA FoodData Central)
+* Caching strategy (DB-first, API fallback)
+* Real-time UI updates (no page reloads)
+* Responsive UI with modern UX patterns
 
 ---
 
@@ -46,31 +81,37 @@ A full-stack web application that helps users track their daily protein and calo
 * Express.js
 * PostgreSQL
 * Prisma ORM
+* Firebase Admin SDK
 
-### Frontend (in progress)
+### Frontend
 
 * React (Vite)
 * Tailwind CSS
 * Framer Motion
-* Chart.js / Recharts
+* Recharts / Chart.js
 
 ---
 
 ## 📡 API Endpoints
 
-### Food
+### 🔍 Food
 
-* `GET /api/foods?query=egg`
+* `GET /api/foods/search?query=egg`
 
-### Logs
+---
+
+### 🍽️ Logs
 
 * `POST /api/logs`
-* `GET /api/logs/total?userId=1&date=YYYY-MM-DD`
+* `DELETE /api/logs/:id`
+* `GET /api/dashboard` (daily aggregated stats + logs)
 
-### Health
+---
 
-* `POST /api/health/bmi`
-* `POST /api/health/goal`
+### 👤 Users
+
+* `POST /api/users/create`
+* `POST /api/users/setup`
 
 ---
 
@@ -80,7 +121,6 @@ A full-stack web application that helps users track their daily protein and calo
 POST /api/logs
 
 {
-  "userId": 1,
   "foodId": 1,
   "quantity": 150
 }
@@ -96,18 +136,25 @@ cd server
 npm install
 ```
 
-### Configure environment
+---
 
-Create `.env` file:
+### 🔐 Environment Variables
+
+Create a `.env` file:
 
 ```env
 DATABASE_URL=your_postgres_url
 USDA_API_KEY=your_api_key
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_CLIENT_EMAIL=your_client_email
+FIREBASE_PRIVATE_KEY=your_private_key
 ```
+
+⚠️ Never commit `.env` files to GitHub.
 
 ---
 
-### Run backend
+### ▶️ Run Backend
 
 ```bash
 npx prisma migrate dev
@@ -116,29 +163,45 @@ node src/app.js
 
 ---
 
+### ▶️ Run Frontend
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+---
+
 ## 📌 Future Improvements
 
-* Authentication system
-* Multi-user support
-* Advanced nutrition recommendations
-* Mobile responsiveness
-* AI-based food suggestions
+* Edit logs functionality
+* Undo delete (toast/snackbar)
+* Weekly & monthly analytics
+* AI-based food recommendations
+* Offline support (PWA)
+* Accessibility improvements
 
 ---
 
 ## 👨‍💻 Author
 
-Abhijith S
+**Abhijith S**
+
+* GitHub: https://github.com/Abhijiths-s
+* LinkedIn: https://www.linkedin.com/in/abhijiths-s
 
 ---
 
-## ⭐ Project Goal
+## ⭐ Project Highlights
 
-This project was built to demonstrate:
+This project demonstrates:
 
-* Full-stack development skills
-* Clean architecture design
-* Real-world problem solving
+* Full-stack system design
+* Secure authentication with Firebase
+* Real-time data-driven UI
+* Clean and scalable backend architecture
+* Strong focus on UX (mobile + desktop)
 
 ---
 
