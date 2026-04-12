@@ -129,7 +129,7 @@ export default function Analytics() {
                 <div className="h-px bg-gradient-to-r from-primgreen/30 via-secgreen/50 to-transparent -mt-3" />
 
                 {/* ── Summary stat cards ─────────────────────────── */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
                     <AnalyticsStatCard
                         label="Avg Protein"
                         value={avgProtein.toFixed(1)}
