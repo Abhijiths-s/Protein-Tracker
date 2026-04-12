@@ -26,7 +26,8 @@ export default function LogAdder({ onLogAdded }) {
 
         const user = auth.currentUser;
         const token = await user.getIdToken();
-        const res = await fetch(`http://localhost:3000/api/foods/search?query=${value}`, {
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+        const res = await fetch(`${API_URL}/api/foods/search?query=${value}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -46,7 +47,8 @@ export default function LogAdder({ onLogAdded }) {
         const user = auth.currentUser;
         const token = await user.getIdToken();
 
-        const res = await fetch("http://localhost:3000/api/logs", {
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+        const res = await fetch(`${API_URL}/api/logs`, {
             method: "POST",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
             body: JSON.stringify({ foodId: selectedFood.id, quantity: Number(quantity) }),

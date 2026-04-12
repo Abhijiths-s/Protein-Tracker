@@ -27,7 +27,8 @@ export default function Analytics() {
             setLoading(true);
             try {
                 const token = await user.getIdToken();
-                const res = await fetch(`http://localhost:3000/api/analytics?days=${days}`, {
+                const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+                const res = await fetch(`${API_URL}/api/analytics?days=${days}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 if (!res.ok) throw new Error("Failed to fetch analytics");

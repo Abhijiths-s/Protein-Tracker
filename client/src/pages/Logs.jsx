@@ -18,7 +18,8 @@ export default function Logs() {
     const fetchLogs = async (user) => {
         if (!user) return;
         const token = await user.getIdToken();
-        const res = await fetch("http://localhost:3000/api/dashboard", {
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+        const res = await fetch(`${API_URL}/api/dashboard`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -43,7 +44,8 @@ export default function Logs() {
         const user = auth.currentUser;
         if (!user) return;
         const token = await user.getIdToken();
-        await fetch(`http://localhost:3000/api/logs/${logId}`, {
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+        await fetch(`${API_URL}/api/logs/${logId}`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${token}` },
         });

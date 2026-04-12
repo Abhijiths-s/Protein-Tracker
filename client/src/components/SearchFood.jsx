@@ -12,7 +12,8 @@ export default function SearchFood({onSelectFood})
 
         if(!value) return;
 
-        const res = await fetch(`http://localhost:3000/api/foods/search?query=${value}`);
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+        const res = await fetch(`${API_URL}/api/foods/search?query=${value}`);
         const data = await res.json();
 
         setResults(data);

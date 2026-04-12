@@ -24,7 +24,8 @@ export default function UserSetup() {
             if (!firebaseUser) { alert("User not found!"); return; }
 
             const token = await firebaseUser.getIdToken();
-            const res = await fetch("http://localhost:3000/api/users/setup", {
+            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+            const res = await fetch(`${API_URL}/api/users/setup`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

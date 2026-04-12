@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL:"http://localhost:3000",
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
     headers: {
         "Content-Type": "application/json",
     },
@@ -33,7 +33,7 @@ api.interceptors.response.use(
 );
 
 export const getUserGoal = async (userId) => {
-    const res = await fetch(`http://localhost:3000/api/health/goal?userId=${userId}`);
+    const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/health/goal?userId=${userId}`);
     if (!res.ok) {
         throw new Error("Failed to fetch user goal");
     }
